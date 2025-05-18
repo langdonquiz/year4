@@ -421,17 +421,21 @@ startBtn.addEventListener("click", () => {
   startQuiz(currentTitle);
 });
 
-// Modified startQuiz function to hide main menu when starting a quiz
+// Improved startQuiz function to hide the main menu when starting a quiz
 function startQuiz(title) {
   currentQuiz = quizzes[title];
   currentTitle = title;
   currentQuestion = 0;
   score = 0;
   quizTitle.textContent = title;
-  mainMenu.classList.add("hidden"); // Hide the main menu when starting the quiz
+
+  // Hide the main menu explicitly
+  mainMenu.classList.add("hidden");
+  
   showScreen(quizScreen);
   showQuestion();
 }
+
 
 function showQuestion() {
   const question = currentQuiz[currentQuestion];

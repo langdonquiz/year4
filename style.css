@@ -8,12 +8,17 @@
     display: block;
 }
 
+/* Explicitly define hidden class to ensure it works */
+.hidden {
+    display: none !important;
+}
+
 /* Style for the main menu to always be visible initially */
 #main-menu {
     display: block;
 }
 
-/* style.css */
+/* General styling */
 body {
     font-family: Arial, sans-serif;
     text-align: center;
@@ -65,3 +70,4 @@ button:hover {
     margin-top: 10px;
     font-weight: bold;
 }
+
