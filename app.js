@@ -1,5 +1,5 @@
 const quizzes = {
-"Invasion and Settlement": [
+"History - Invasion and Settlement": [
   { q: "Who was the first King to unite England?", a: ["Alfred the Great", "Harold Godwinson", "Athelstan", "William the Conqueror"], correct: 2 },
   { q: "What did Alfred the Great accomplish?", a: ["Defeated Viking leader Guthrum", "Led the Norman Conquest", "Established Danelaw", "Built the Bayeux Tapestry"], correct: 0 },
   { q: "Who was crowned King of England in 1066 after the Battle of Hastings?", a: ["Harold Godwinson", "Harald Hardrada", "Athelstan", "William the Conqueror"], correct: 3 },
@@ -377,15 +377,32 @@ function showScreen(screen) {
   screen.classList.remove("hidden");
 }
 
+// Improved loadMainMenu function for flexible term grouping
+const termConfig = {
+  "Autumn Term": 7,  // Number of quizzes in Autumn
+  "Spring Term": 6,  // Number of quizzes in Spring
+  "Summer Term": 5   // Number of quizzes in Summer
+};
+
 function loadMainMenu() {
   quizList.innerHTML = "";
-  Object.keys(quizzes).forEach(title => {
-    const btn = document.createElement("button");
-    btn.textContent = title;
-    btn.setAttribute("type", "button");
-    btn.addEventListener("click", () => promptNameAndClass(title));
-    quizList.appendChild(btn);
-  });
+  let quizIndex = 0;
+
+  for (const [term, count] of Object.entries(termConfig)) {
+    const termHeading = document.createElement("h2");
+    termHeading.textContent = term;
+    quizList.appendChild(termHeading);
+
+    const quizArray = Object.keys(quizzes).slice(quizIndex, quizIndex + count);
+    quizArray.forEach(title => {
+      const btn = document.createElement("button");
+      btn.textContent = title;
+      btn.setAttribute("type", "button");
+      btn.addEventListener("click", () => promptNameAndClass(title));
+      quizList.appendChild(btn);
+    });
+    quizIndex += count;
+  }
   showScreen(mainMenu); // Always start with the main menu
 }
 
@@ -404,12 +421,14 @@ startBtn.addEventListener("click", () => {
   startQuiz(currentTitle);
 });
 
+// Modified startQuiz function to hide main menu when starting a quiz
 function startQuiz(title) {
   currentQuiz = quizzes[title];
   currentTitle = title;
   currentQuestion = 0;
   score = 0;
   quizTitle.textContent = title;
+  mainMenu.classList.add("hidden"); // Hide the main menu when starting the quiz
   showScreen(quizScreen);
   showQuestion();
 }
