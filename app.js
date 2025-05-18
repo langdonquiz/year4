@@ -370,12 +370,20 @@ function sendDataToGoogleSheets(name, className, quizName, score) {
 
 
 
+// Improved showScreen function to properly hide the main menu
 function showScreen(screen) {
-  // Hide all screens
+  // Hide all screens explicitly
   document.querySelectorAll(".screen").forEach(s => s.classList.add("hidden"));
+  
+  // Special case: Hide the main menu when showing the quiz screen
+  if (screen === quizScreen) {
+    mainMenu.classList.add("hidden");
+  }
+
   // Show the selected screen
   screen.classList.remove("hidden");
 }
+
 
 // Improved loadMainMenu function for flexible term grouping
 const termConfig = {
@@ -421,7 +429,7 @@ startBtn.addEventListener("click", () => {
   startQuiz(currentTitle);
 });
 
-// Improved startQuiz function to hide the main menu when starting a quiz
+// Updated startQuiz function
 function startQuiz(title) {
   currentQuiz = quizzes[title];
   currentTitle = title;
@@ -429,9 +437,7 @@ function startQuiz(title) {
   score = 0;
   quizTitle.textContent = title;
 
-  // Hide the main menu explicitly
-  mainMenu.classList.add("hidden");
-  
+  // Use showScreen to manage visibility correctly
   showScreen(quizScreen);
   showQuestion();
 }
